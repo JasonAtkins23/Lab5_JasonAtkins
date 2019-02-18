@@ -37,7 +37,7 @@ public class Calculator
         int a = Integer.parseInt(tokens[1]); // Throws NumberFormatException if the second token is not an int value.
         // TODO: complete this...
         String command = tokens[0];
-        if (!command.equals("halve") || !command.equals("negate")) {
+        if (!command.equals("halve") && !command.equals("negate")) {
         	throw new CalculatorException("Illegal Command");
         }
         else if (command.equals("halve")) {
@@ -83,7 +83,7 @@ public class Calculator
     	int num1 = Integer.parseInt(tokens[0]);
     	int num2 = Integer.parseInt(tokens[2]);
     	String command = tokens[1];
-    	if (!command.equals("+") || !command.equals("-") || !command.equals("/")) {
+    	if (!command.equals("+") && !command.equals("-") && !command.equals("/")) {
     		throw new CalculatorException("Illegal Command");
     	}
     	else if (command.equals("+")) {
@@ -152,7 +152,6 @@ public class Calculator
         		throw new CalculatorException("Illegal Token Length");
         	}
         }
-
     }
 
     /**
@@ -189,5 +188,27 @@ public class Calculator
         // TODO: complete this...
         // Hint: you should try and call execute(). If execute encounters an error, it will throw an exception. This
         // method will catch those exceptions and respond accordingly.
+    	String[] tokens = input.split(" ");
+    	try {
+    		int theTokens = execute(tokens);
+    		if (theTokens == Integer.MIN_VALUE) {
+    			return "quit";
+    		}
+    		else if (theTokens == 2) {
+    			return (String.format("The result is: %d", theTokens));
+    		}
+    		else {
+    			return (String.format("The result is: %d", theTokens));
+    		}
+    	}
+    	catch (ArithmeticException ae) {
+    		return "Attempted to divide by 0. Please try again.";
+    	}
+    	catch (NumberFormatException nfe) {
+    		return "Input number cannot be parsed to an int. Please try again.";
+    	}
+    	catch (CalculatorException ce) {
+    		return String.format("Calculator exception, message is %s", ce.getMessage());
+    	}
     }
 }
